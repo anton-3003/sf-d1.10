@@ -26,12 +26,23 @@ def read():
             task_id = str(task['id'])[-4:]
             print('\t' + task['name'] + ' | ID задачи: ' + str(task_id))
 
-
+def create_task(name, column_name):
+    column_data = requests.get(base_url.format('boards') + '/' + board_id + '/lists', params=auth_params).json()
+    for column in column_data:
+        if column['name'] == column_name:
+            requests.post(base_url.format('cards'), data={'name': name, 'idList': column['id'], **auth_params})
+            break
+            
+            
 def create(name, column_name):
     column_data = requests.get(base_url.format('boards') + '/' + board_id + '/lists', params=auth_params).json()
     for column in column_data:
         if column['name'] == column_name:
             requests.post(base_url.format('cards'), data={'name': name, 'idList': column['id'], **auth_params})
+            break
+        elif column_name != column['name']:
+            create_col(column_name)
+            create_task(name, column_name)
             break
 # python trello.py create "___Название задачи____" "___Название колонки____"
 
