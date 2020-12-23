@@ -78,7 +78,7 @@ def del_task(task_id):
                 task_id_req = str(task['id'])
 
     requests.delete(base_url.format('cards') + '/' + str(task_id_req), params=auth_params).json()
-
+# python trello.py del_task __task_id (4 symb)__
 
 def create_col(name):
     lists_url = base_url.format('boards') + '/' + board_id + '/lists'
